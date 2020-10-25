@@ -1,0 +1,282 @@
+<div class="alert alert-success alert-dismissible" role="alert" *ngIf="showAlertMessage">
+    User Profile Added Successfully
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="col-md-7  col-sm-12 container" >
+    <div class="card" id="main-card">
+        <div class="card-header d-flex justify-content-between">
+           <span> <i class="fa fa-users" ></i> List of users</span>
+            <span class="AddUser">
+                <button type="button" class="btn btn-primary" data-toggle="modal" (click)="resetForm()" data-target="#AddUser"
+                    data-whatever="@mdo">Add User Profile</button>
+            </span>
+        </div>
+
+        <div class="card-body">
+            <div *ngIf="users.length == 0" class="text-center font-weight-bold"> 
+              <div class="empty"> You Have No Users </div> 
+              <div><i class="fa fa-ban"></i></div> 
+             </div>
+            <div class="card mb-3" id="user-card" *ngFor="let user of users; let i = index;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-12 ">
+                            <img src="{{user.profilePicture}}" />
+                        </div>
+
+                        <div class="col-md-6 col-sm-12 ticket">
+                            <span class="subject">
+                                {{user.userName}}
+                            </span>
+                            <br />
+                            <span id="ticketType"> {{user.Address}} </span> <br />
+
+                            <span class="date">
+                                {{user.dateOfBirth}}
+                            </span>
+                            <br />
+
+                            <span class="date">
+                                {{user.country}} </span><br />
+
+                            <span class="date">
+                                {{user.Salary}} JD</span><br />
+                        </div>
+
+                        <div class="col-md-4 col-sm-12 status text-center">
+                            <!-- [ngClass]="
+              ticket.priority == '1'
+                ? 'green'
+                : ticket.priority == '2'
+                ? 'yellow'
+                : 'red'
+            " -->
+                            <span>
+
+                            </span>
+                            <i class="fa fa-circle" [ngClass]="{' Active': user.isActive == true , ' NotActive':user.isActive == false}"></i>
+                            <span> Is Active </span>
+                           
+                            <button (click)="getUserindex(i)" type="button" class="btn btn-outline-danger"
+                                data-toggle="modal" data-target="#DeleteUser">
+                                Delete
+                            </button>
+                            <br />
+                            <button data-toggle="modal" data-target="#EditUser" (click)="updateUser(user)" type="button" class="btn btn-outline-warning ">
+                                Update
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- this modal for Add user Profile -->
+<div class="modal fade" id="AddUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                 <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-user-plus" ></i>  Add User Profile</h5>
+                <button #closeModal type="button" (click)="resetForm()" class="close" data-dismiss="modal"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="AddUserForm">
+
+
+                    <div class="form-group">
+                        <i class="fa fa-user-o" ></i> <label for="recipient-name" class="col-form-label font-weight-bold">User Name</label>
+                        <input placeholder="User Name" formControlName="userName" type="text" class="form-control"
+                            id="recipient-name" required>
+                        <div class="invalid-feedback" *ngIf="errorMessages['userName']">
+                            {{ errorMessages['userName'] }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <i class="fa fa-calendar"></i>  <label for="message-text" class="col-form-label font-weight-bold">Date of Birth</label>
+                        <input placeholder="Date of Birth" formControlName="dateOfBirth" type="date"
+                            class="form-control" id="recipient-name">
+                        <div class="invalid-feedback" *ngIf="errorMessages['dateOfBirth']">
+                            {{ errorMessages['dateOfBirth'] }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <i class="fa fa-address-card-o"></i>  <label for="message-text" class="col-form-label font-weight-bold"> Address</label>
+                        <input placeholder="Address" formControlName="Address" type="text" class="form-control"
+                            id="recipient-name">
+                        <div class="invalid-feedback" *ngIf="errorMessages['Address']">
+                            {{ errorMessages['Address'] }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <i class="fa fa-money" ></i> <label for="message-text" class="col-form-label font-weight-bold">Salary</label>
+                        <input placeholder="Salary" formControlName="Salary" type="text" class="form-control"
+                            id="recipient-name">
+                        <div class="invalid-feedback" *ngIf="errorMessages['Salary']">
+                            {{ errorMessages['Salary'] }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <i class="fa fa-globe" ></i>  <label for="message-text" class="col-form-label font-weight-bold">Country</label>
+                        <select class="form-control" formControlName="country">
+                            <option *ngFor="let item of countries" value="{{item.value}}">{{item.value}}</option>
+                        </select>
+                        <div class="invalid-feedback" *ngIf="errorMessages['country']">
+                            {{ errorMessages['country'] }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <i class="fa fa-picture-o" ></i>    <label for="recipient-name" class="col-form-label font-weight-bold">profile picture</label>
+                        <input type="file" accept="image/*" (change)="readUrl($event)" class="form-control"
+                            id="recipient-name">
+                            <div class="invalid-feedback" *ngIf="errorMessages['profilePicture']">
+                                {{ errorMessages['profilePicture'] }}
+                            </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-check">
+                          <input formControlName="isActive" class="form-check-input" type="checkbox" value="" id="invalidCheck2" >
+                          <label  class="form-check-label font-weight-bold" for="invalidCheck2">
+                            Is Active
+                          </label>
+                        </div>
+                      </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="resetForm()"
+                    data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="AddUser()">Add User</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- this modal for Edit user Profile -->
+<div class="modal fade" id="EditUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-pencil-square-o" ></i> Edit User Profile</h5>
+                <button #closeUpdateModal type="button" (click)="resetForm()" class="close" data-dismiss="modal"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="AddUserForm">
+
+
+                    <div class="form-group">
+                        <i class="fa fa-user-o" ></i>    <label for="recipient-name" class="col-form-label font-weight-bold">User Name</label>
+                        <input placeholder="User Name" formControlName="userName" type="text" class="form-control"
+                            id="recipient-name" required>
+                        <div class="invalid-feedback" *ngIf="errorMessages['userName']">
+                            {{ errorMessages['userName'] }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <i class="fa fa-calendar"></i>  <label for="message-text" class="col-form-label font-weight-bold">Date of Birth</label>
+                        <input placeholder="Date of Birth" formControlName="dateOfBirth" type="date"
+                            class="form-control" id="recipient-name">
+                        <div class="invalid-feedback" *ngIf="errorMessages['dateOfBirth']">
+                            {{ errorMessages['dateOfBirth'] }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <i class="fa fa-address-card-o"></i>  <label for="message-text" class="col-form-label font-weight-bold">Address</label>
+                        <input placeholder="Address" formControlName="Address" type="text" class="form-control"
+                            id="recipient-name">
+                        <div class="invalid-feedback" *ngIf="errorMessages['Address']">
+                            {{ errorMessages['Address'] }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <i class="fa fa-money" ></i> <label for="message-text" class="col-form-label font-weight-bold">Salary</label>
+                        <input placeholder="Salary" formControlName="Salary" type="text" class="form-control"
+                            id="recipient-name">
+                        <div class="invalid-feedback" *ngIf="errorMessages['Salary']">
+                            {{ errorMessages['Salary'] }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <i class="fa fa-globe" ></i><label for="message-text" class="col-form-label font-weight-bold">Country</label>
+                        <select class="form-control" formControlName="country">
+                            <option *ngFor="let item of countries" value="{{item.value}}">{{item.value}}</option>
+                        </select>
+                        <div class="invalid-feedback" *ngIf="errorMessages['country']">
+                            {{ errorMessages['country'] }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <i class="fa fa-picture-o" ></i> <label for="recipient-name" class="col-form-label font-weight-bold">profile picture</label>
+                        <input type="file" accept="image/*" (change)="readUrl($event)" class="form-control"
+                            id="recipient-name">
+                            <div class="invalid-feedback" *ngIf="errorMessages['profilePicture']">
+                                {{ errorMessages['profilePicture'] }}
+                            </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-check">
+                          <input formControlName="isActive" class="form-check-input" type="checkbox" value="" id="invalidCheck2" >
+                          <label  class="form-check-label font-weight-bold" for="invalidCheck2">
+                            Is Active
+                          </label>
+                        </div>
+                      </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                    data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="EditUser()">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- this modal for confimation Delete User  -->
+<div class="modal" tabindex="-1" role="dialog" id="DeleteUser" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title "><i class="fa fa-exclamation-triangle" ></i> Alert Box</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-center font-weight-bold">Are You Sure ?</p>
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="deleteUser()"
+                    data-dismiss="modal">Delete</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

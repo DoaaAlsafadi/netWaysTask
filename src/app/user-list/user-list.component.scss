@@ -1,0 +1,173 @@
+.container{
+    margin-top: 3%;
+   
+}
+
+#main-card{
+  .card-header{
+    font-weight: bold;
+    font-size: 20px;
+  }
+    .card-body{
+        background-color: #f7f7f730;
+    }
+    #user-card {
+        background-color: white;
+        border          : 1px solid orange;
+        border-radius   : 10px;
+      
+        .card-body{
+            background-color:white;
+        }
+        img {
+          width: 80%;
+        }
+      
+        .ticket {
+          font-weight: bold;
+          font-size  : 12px;
+      
+          .subject {
+            font-size: 16px;
+          }
+        }
+      
+        .icon {
+          cursor: pointer;
+        }
+      
+        .date {
+          font-size: 10px;
+          color    : gray !important;
+        }
+      
+        #ticketType {
+          color      : blue;
+          font-weight: bold;
+        }
+      
+        #ticket-status {
+          font-size  : 12px;
+          font-weight: bold;
+          text-align : center;
+          color      : blue;
+        }
+      }
+    
+}
+  
+  .status {
+    span {
+      // color: $purple;
+      font-size  : 12px;
+      font-weight: bold;
+      color      : black;
+    }
+  }
+  
+  .btn-outline-warning,.btn-outline-danger {
+    border-radius: 10px;
+    margin       : 2px 2px;
+    background   : white;
+    font-size    : 12px;
+    width        : 100%;
+    cursor       : pointer;
+  }
+  
+  .btn-outline-warning {
+    &:hover {
+      color     : white;
+      background: orange;
+    }
+  }
+
+  .btn-outline-danger{
+    &:hover {
+        color     : white;
+        background: red;
+      }
+  }
+
+  .AddUser{
+      text-align: right;
+  }
+
+.invalid-feedback {
+  display: block;
+}
+.modal-header{
+  background-color:orange;
+}
+
+.fa-circle{
+  font-size: 14px;
+ 
+}
+
+.Active{
+  color: green;
+}
+.NotActive{
+  color: gray;
+}
+
+.fa-ban{
+  font-size: 100px;
+  color: orange;
+}
+
+.empty{
+  font-size: 35px;
+}
+.fa-circle{
+  font-size: 14px;
+ 
+}
+
+
+.fa-users {
+  font-size: 25px;
+  color: orange;
+}
+
+.fa-address-card-o{
+  font-size: 20px;
+  color: orange;
+
+}
+.fa-calendar{
+  font-size: 20px;
+  color: orange;
+}
+.fa-money{
+  font-size: 20px;
+  color: orange;
+}
+.fa-user-o{
+  font-size: 20px;
+  color: orange;
+}
+
+.fa-picture-o{
+  font-size: 20px;
+  color: orange;
+}
+.fa-globe{
+  font-size: 20px;
+  color: orange;
+}
+.fa-user-plus{
+  font-size: 20px;
+}
+
+  @media (max-width: 576px) {
+    .card {
+      text-align: center;
+    }
+  
+    .question-img {
+      max-width: 150px;
+      margin   : none;
+      display  : block;
+    }
+  }
